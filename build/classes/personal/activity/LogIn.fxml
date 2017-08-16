@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXPasswordField?>
+<?import com.jfoenix.controls.JFXSpinner?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.effect.GaussianBlur?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.text.Font?>
+
+<StackPane fx:id="stack_pane" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="personal.activity.LogInController">
+   <children>
+      <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="435.0" prefWidth="776.0" style="-fx-border-color: rgb(214, 0, 74);">
+         <children>
+            <ImageView fitHeight="437.0" fitWidth="780.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../Img/blur_city.jpg" />
+               </image>
+            </ImageView>
+            <Pane layoutX="-5.0" prefHeight="435.0" prefWidth="783.0" style="-fx-background-color: rgba(101, 24, 173, 0.2);">
+               <effect>
+                  <GaussianBlur />
+               </effect>
+            </Pane>
+            <Pane layoutX="403.0" layoutY="19.0" prefHeight="399.0" prefWidth="352.0" style="-fx-background-color: rgba(255,255,255, 0.9);">
+               <children>
+                  <JFXTextField fx:id="username_field" focusColor="#ee2a96" labelFloat="true" layoutX="22.0" layoutY="101.0" prefHeight="38.0" prefWidth="309.0" promptText="Username" unFocusColor="#0997f5">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </JFXTextField>
+                  <JFXPasswordField fx:id="password_field" focusColor="#e837b0" labelFloat="true" layoutX="22.0" layoutY="198.0" prefHeight="38.0" prefWidth="309.0" promptText="Password" unFocusColor="#2e85ff">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </JFXPasswordField>
+                  <JFXButton fx:id="submit_btn" buttonType="RAISED" layoutX="22.0" layoutY="297.0" onAction="#login_in_action" prefHeight="38.0" prefWidth="309.0" ripplerFill="#74ff76" style="-fx-background-color: rgb(31, 79, 175);" text="Submit" textFill="WHITE" />
+                  <Label layoutX="108.0" layoutY="10.0" text="WELCOME" textFill="#074f8a">
+                     <font>
+                        <Font name="Ubuntu" size="28.0" />
+                     </font>
+                  </Label>
+                  <Label layoutX="141.0" layoutY="42.0" text="Login Here" />
+                  <Label layoutX="95.0" layoutY="358.0" text="Personal Activity @ 2017" />
+                  <Label layoutX="119.0" layoutY="378.0" text="Robby Muhammad Nst">
+                     <font>
+                        <Font size="10.0" />
+                     </font>
+                  </Label>
+               </children>
+            </Pane>
+            <Label layoutX="40.0" layoutY="75.0" text="Personal" textFill="#fcfcfc">
+               <font>
+                  <Font name="Abyssinica SIL" size="51.0" />
+               </font>
+            </Label>
+            <Label layoutX="58.0" layoutY="178.0" text="Manage your activity " textFill="#fffefe" />
+            <JFXButton fx:id="reg_btn" layoutX="128.0" layoutY="396.0" onAction="#reg_btn_onAction" prefHeight="26.0" prefWidth="157.0" style="-fx-background-color: white;" text="REGISTER" textFill="#0e5ecd" />
+            <Label layoutX="113.0" layoutY="125.0" text="Activity" textFill="#15ace5">
+               <font>
+                  <Font name="Abyssinica SIL" size="51.0" />
+               </font>
+            </Label>
+            <Label layoutX="125.0" layoutY="357.0" text="Create your own Account" textFill="#fffefe" />
+            <Label layoutX="190.0" layoutY="372.0" text="NOW" textFill="#fffefe" />
+            <JFXSpinner layoutX="126.0" layoutY="393.0" />
+         </children>
+      </AnchorPane>
+   </children>
+</StackPane>
