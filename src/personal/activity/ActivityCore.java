@@ -22,6 +22,7 @@
  * THE SOFTWARE.
  */
 package personal.activity;
+import com.jfoenix.controls.datamodels.treetable.RecursiveTreeObject;
 import java.util.*;
 import javafx.beans.property.StringProperty;
 
@@ -29,18 +30,23 @@ import javafx.beans.property.StringProperty;
  *
  * @author orion_stark
  */
-public class ActivityCore {
+
+// Extended from RecursiveTreeObject because I need it for tree table view in the dashboard
+// JFXTreeTableView used Object from Class which extended to RecursiveTreeObject
+public class ActivityCore extends RecursiveTreeObject<ActivityCore> {
     private String to_do;
     private String description;
     private Date date_todo;
     private String color;
+    private int Act_ID;
     
-    public ActivityCore(String To_do, String description, String color, Date date_todo)
+    public ActivityCore(String To_do, String description, String color, Date date_todo, int act_ID)
     {
         this.to_do = To_do;
         this.description = description;
         this.color = color;
         this.date_todo = date_todo;
+        this.Act_ID = act_ID;
     }
     
     public String getTodo()
@@ -58,5 +64,9 @@ public class ActivityCore {
     public Date getDateAct()
     {
         return this.date_todo;
+    }
+    public int getUserID()
+    {
+        return this.Act_ID;
     }
 }

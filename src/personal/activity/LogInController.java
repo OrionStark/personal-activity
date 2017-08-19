@@ -15,6 +15,7 @@ import com.jfoenix.controls.JFXDialogLayout;
 import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTextField;
 import java.io.IOException;
+import java.sql.SQLException;
 import javafx.scene.Parent;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -28,6 +29,7 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.text.Text;
 
@@ -66,16 +68,16 @@ public class LogInController implements Initializable {
     }
     
     @FXML
-    void login_in_action(ActionEvent event) {
+    void login_in_action(ActionEvent event) throws IOException {
         if(username_field.getText() == "" || username_field.getText().length() < 5)
         {
-            warning_dialog(new Text("Username Invalid"), new Text("Something went wrong\n" + 
+            warning_dialog(new Text("Username Invalid"), new Text("Something went wrong " + 
                     "With your input information\n" + "Please check again and make sure\n" + 
                     "it's a valid information\n"));
         }
         else if(password_field.getText() == "" || password_field.getText().length() < 4)
         {
-            warning_dialog(new Text("Password Invalid"), new Text("Something went wrong\n" + 
+            warning_dialog(new Text("Password Invalid"), new Text("Something went wrong " + 
                     "Your password input is invalid password\n" + 
                     "Make sure it's your really password\n"));
         }
@@ -85,31 +87,26 @@ public class LogInController implements Initializable {
             {
                 if(this.user_config.login(username_field.getText(), password_field.getText()))
                 {
-                    // Testing the database connection
-                    //warning_dialog(new Text("Login Success"), new Text("Nice Work"));
-                    
                     // Go to Dashboard Page
-                    System.out.print(true);
-                    Parent register_page;
-                    FXMLLoader loader_page = new FXMLLoader();
-                    register_page = loader_page.load(getClass().getResource("Dashboard.fxml"));
-                    
-                    // Get Page Controller and set the value
-                    DashboardController dash_board = loader_page.getController();
+                    // Create controller for our FXML
+                    DashboardController dash_board = new DashboardController();
                     dash_board.setUserID(this.user_config.getUserID());
-                    
-                    // Set View to Scene and replace latest view with newer and show it
+                    FXMLLoader loader_page = new FXMLLoader();
+                    loader_page.setLocation(getClass().getResource("Dashboard.fxml"));
+                    loader_page.setController(dash_board);
+                    Pane register_page;
+                    register_page = loader_page.load();
                     Scene register_page_scene = new Scene(register_page);
                     Stage page_stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
                     setDraggedForm(register_page, page_stage);
-                    page_stage.setScene(register_page_scene);
+                    page_stage.setScene(register_page_scene);          
                     page_stage.show();
                 }
             }
-            catch (Exception e)
+            catch (SQLException e)
             {
                 warning_dialog(new Text("Something went wrong"), new Text("Please check your information again \n" + 
-                        "It may caused by your invalid Password or Username"));
+                        "It may caused by your invalid Password or Username : "));
             }
         }
 

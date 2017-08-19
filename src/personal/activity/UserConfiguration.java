@@ -46,7 +46,7 @@ public class UserConfiguration {
                 statement.setString(4, email_address);
                 statement.execute();
                 this.user_buffer.add(new User(fullName, username, email_address, password));
-                return "sukses";
+                return "success";
             }
             catch (Exception e)
             {
@@ -116,14 +116,7 @@ public class UserConfiguration {
     
     public int getUserID()
     {
-        if(this.online_user != null)
-        {
-            return this.user_id;
-        }
-        else
-        {
-            return 0;
-        }
+        return this.user_id;
     }
     
 }

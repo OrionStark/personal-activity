@@ -68,11 +68,11 @@ public class ActivityConfiguration {
                 statement = this.db_connection.prepareStatement(act_query);
                 statement.setString(1, to_do);
                 statement.setString(2, description);
-                statement.setDate(3, (java.sql.Date) date_todo);
+                statement.setTimestamp(3, new java.sql.Timestamp(date_todo.getTime()));
                 statement.setString(4, color_act);
                 statement.setInt(5, User_ID);
                 statement.execute();
-                this.db_connection.close();
+                //this.db_connection.close();
                 return true;
                 
             }
@@ -103,8 +103,8 @@ public class ActivityConfiguration {
                 result = statement.executeQuery();
                 while(result.next())
                 {
-                    act.add(new ActivityCore(result.getString("Activity_Name"), result.getString("Description"), 
-                    result.getString("Color"), result.getDate("Date_Todo")));
+                    act.add(new ActivityCore(result.getString("Activity_Name"), result.getString("Description"), result.getString("Color"), 
+                            result.getDate("Date_Todo"), result.getInt("Activity_ID")));
                 }
                 if(act.size() < 0)
                 {
@@ -118,9 +118,16 @@ public class ActivityConfiguration {
             }
             catch (Exception e)
             {
-                //
+                // Nothing todo XD
             }
         }
+        return act;
+    }
+    
+    public List<ActivityCore> getTodayActivity(int user_id)
+    {
+        List<ActivityCore> act = new ArrayList<>();
+        Date test = new Date();
         return act;
     }
     
