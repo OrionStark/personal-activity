@@ -26,6 +26,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDateTime;
 import java.util.*;
 import javafx.beans.property.StringProperty;
 
@@ -127,7 +128,15 @@ public class ActivityConfiguration {
     public List<ActivityCore> getTodayActivity(int user_id)
     {
         List<ActivityCore> act = new ArrayList<>();
-        Date test = new Date();
+        for (int i = 0; i < getActivity(user_id).size(); i ++)
+        {
+            Calendar cal = Calendar.getInstance();
+            cal.setTime(getActivity(user_id).get(i).getDateAct());
+            if (Calendar.getInstance().getTime().getDay() == cal.getTime().getDay())
+            {
+                act.add(getActivity(user_id).get(i));
+            }
+        }
         return act;
     }
     

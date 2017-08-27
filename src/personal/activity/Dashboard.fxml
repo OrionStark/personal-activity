@@ -17,6 +17,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.text.Font?>
+
 <!-- I deleted the default controller in here, because I want to create a new one but the same.
      But for a new one controller I've already set the User ID for Dashboard.
      If I'm not doing that, the initialize will change the value of User_ID when we call it for the second time
@@ -24,28 +25,29 @@
      first call = 0
      second call = 2
 -->
+
 <StackPane fx:id="stack_pane" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <AnchorPane id="AnchorPane" fx:id="anchor_base" prefHeight="559.0" prefWidth="857.0" style="-fx-background-color: white;">
          <children>
             <Pane fx:id="dash_pane" prefHeight="559.0" prefWidth="203.0" style="-fx-background-color: rgb(37, 54, 76);">
                <children>
-                  <Label layoutX="12.0" layoutY="16.0" prefHeight="28.0" prefWidth="157.0" text="Dashboard" textFill="#fc2d8e">
+                  <Label layoutX="12.0" layoutY="16.0" prefHeight="28.0" prefWidth="157.0" text="Dashboard" textFill="#44abf5">
                      <font>
                         <Font size="25.0" />
                      </font>
                   </Label>
-                  <Label layoutX="11.0" layoutY="121.0" prefHeight="28.0" prefWidth="138.0" text="Your personal Activity" textFill="WHITE">
+                  <Label layoutX="11.0" layoutY="121.0" prefHeight="28.0" prefWidth="138.0" text="Your personal Activity" textFill="#7c4beb">
                      <font>
                         <Font size="11.0" />
                      </font>
                   </Label>
-                  <Label layoutX="11.0" layoutY="140.0" prefHeight="28.0" prefWidth="138.0" text="Do whatever you want " textFill="WHITE">
+                  <Label layoutX="11.0" layoutY="140.0" prefHeight="28.0" prefWidth="138.0" text="Do whatever you want " textFill="#f59c3d">
                      <font>
                         <Font size="11.0" />
                      </font>
                   </Label>
-                  <Label layoutX="11.0" layoutY="160.0" prefHeight="28.0" prefWidth="148.0" text="And configure all of them" textFill="WHITE">
+                  <Label layoutX="11.0" layoutY="160.0" prefHeight="28.0" prefWidth="148.0" text="And configure all of them" textFill="#1e88e5">
                      <font>
                         <Font size="11.0" />
                      </font>
@@ -74,7 +76,7 @@
                               <Image url="file:/home/orion_stark/Documents/Personal%20Activity/src/Icon_pack/icons8-Grid%202-40.png" />
                            </image>
                         </ImageView>
-                        <Label layoutX="82.0" layoutY="6.0" text="Menu" textFill="WHITE" />
+                        <Label layoutX="82.0" layoutY="6.0" text="Menu" textFill="#2bb2f0" />
                      </children>
                   </Pane>
                   <JFXDrawer fx:id="option_drawer" defaultDrawerSize="165.0" layoutX="12.0" layoutY="266.0" prefHeight="136.0" prefWidth="179.0" />
@@ -82,11 +84,17 @@
             </Pane>
             <Pane fx:id="top_pane" layoutX="203.0" prefHeight="43.0" prefWidth="654.0" style="-fx-background-color: rgb(3, 77, 119);">
                <children>
-                  <Pane fx:id="today_act_btn" layoutX="527.0" layoutY="6.0" prefHeight="30.0" prefWidth="118.0">
-                     <children>
-                        <Label layoutX="13.0" layoutY="6.0" text="Today Activity" textFill="WHITE" />
-                     </children>
-                  </Pane>
+                  <JFXButton fx:id="tday_act_btn" buttonType="RAISED" layoutX="8.0" layoutY="7.0" ripplerFill="#2fab8c" style="-fx-background-color: rgb(255,255,255);" text="Today Activity" textFill="#1077b0" />
+                  <ImageView fx:id="close_btn" fitHeight="24.0" fitWidth="28.0" layoutX="619.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../Icon_pack/Close%20Window-30.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fx:id="minimize_btn" fitHeight="24.0" fitWidth="28.0" layoutX="585.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../Icon_pack/Minimize%20Window-30.png" />
+                     </image>
+                  </ImageView>
                </children>
             </Pane>
             <AnchorPane fx:id="content_ctr" layoutX="203.0" layoutY="43.0" prefHeight="516.0" prefWidth="654.0" style="-fx-background-color: rgb(255,255,255);">
@@ -115,7 +123,7 @@
                         </Label>
                         <Label layoutX="82.0" layoutY="192.0" text="All of your activity" textFill="#eb0d78" />
                         <JFXButton fx:id="expand_btn" layoutX="529.0" layoutY="183.0" prefHeight="26.0" prefWidth="73.0" text="Expand" textFill="#0c537c" />
-                        <JFXTreeTableView fx:id="act_table" layoutX="18.0" layoutY="215.0" prefHeight="216.0" prefWidth="579.0" />
+                        <JFXTreeTableView fx:id="act_table" layoutX="18.0" layoutY="215.0" prefHeight="216.0" prefWidth="579.0" stylesheets="@DashboardStyle.css" />
                      </children>
                   </Pane>
                </children>

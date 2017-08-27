@@ -68,7 +68,7 @@ public class LogInController implements Initializable {
     }
     
     @FXML
-    void login_in_action(ActionEvent event) throws IOException {
+    void login_in_action(ActionEvent event) throws IOException, Exception {
         if(username_field.getText() == "" || username_field.getText().length() < 5)
         {
             warning_dialog(new Text("Username Invalid"), new Text("Something went wrong " + 
@@ -98,12 +98,13 @@ public class LogInController implements Initializable {
                     register_page = loader_page.load();
                     Scene register_page_scene = new Scene(register_page);
                     Stage page_stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-                    setDraggedForm(register_page, page_stage);
-                    page_stage.setScene(register_page_scene);          
+                    setDraggedForm(dash_board.top_pane, page_stage);
+                    page_stage.setScene(register_page_scene);   
+                    page_stage.centerOnScreen();
                     page_stage.show();
                 }
             }
-            catch (SQLException e)
+            catch (Exception e)
             {
                 warning_dialog(new Text("Something went wrong"), new Text("Please check your information again \n" + 
                         "It may caused by your invalid Password or Username : "));

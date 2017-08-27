@@ -60,7 +60,7 @@ public class UserConfiguration {
             
     }
     
-    public boolean login(String username, String password) throws SQLException
+    public boolean login(String username, String password) throws SQLException, Exception
     {
         if(isNullConnector())
         {
@@ -82,22 +82,19 @@ public class UserConfiguration {
                     this.online_user = new User(resultset.getString("Full_Name"), resultset.getString("username"), 
                     resultset.getString("user_email"), resultset.getString("password"));
                     this.user_id = resultset.getInt("User_ID");
+                    statement.close();
+                    resultset.close();
+                    this.db_connection.close();
                     return true;
                 }
                 else
                 {
-                    return false;
+                    throw new Exception("Wrong Information");
                 }
             }
             catch (Exception e)
             {
                 return false;
-            }
-            finally
-            {
-                statement.close();
-                resultset.close();
-                this.db_connection.close();
             }
         }
     }

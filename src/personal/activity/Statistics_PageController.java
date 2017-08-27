@@ -23,9 +23,13 @@
  */
 package personal.activity;
 
+import com.jfoenix.controls.JFXTreeTableView;
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.chart.StackedAreaChart;
+import javafx.scene.image.ImageView;
 
 /**
  * FXML Controller class
@@ -37,6 +41,14 @@ public class Statistics_PageController implements Initializable {
     /**
      * Initializes the controller class.
      */
+    @FXML
+    private StackedAreaChart<?, ?> chart_view_act;
+
+    @FXML
+    private JFXTreeTableView<?> table_view_act;
+
+    @FXML
+    private ImageView close_btn;
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO

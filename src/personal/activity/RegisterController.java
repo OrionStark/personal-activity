@@ -185,6 +185,7 @@ public class RegisterController implements Initializable {
                 Stage page_stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
                 setDraggedForm(register_page, page_stage);
                 page_stage.setScene(register_page_scene);
+                page_stage.centerOnScreen();
                 page_stage.show();
             }
             catch (IOException | SQLException e)

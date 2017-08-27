@@ -31,6 +31,7 @@ import com.jfoenix.controls.JFXDialogLayout;
 import com.jfoenix.controls.JFXDrawer;
 import com.jfoenix.controls.JFXHamburger;
 import com.jfoenix.controls.JFXListView;
+import com.jfoenix.controls.JFXPopup;
 import com.jfoenix.controls.JFXRippler;
 import com.jfoenix.controls.JFXTextArea;
 import com.jfoenix.controls.JFXTextField;
@@ -54,6 +55,7 @@ import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.application.Platform;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -64,10 +66,13 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn.CellDataFeatures;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeTableColumn;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.DragEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
@@ -75,6 +80,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Paint;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
 import javafx.util.Callback;
 
 /**
@@ -95,7 +101,7 @@ public class DashboardController implements Initializable {
     private AnchorPane anchor_base;
     
     @FXML
-    private Pane top_pane;
+    public Pane top_pane;
     
     @FXML
     private Pane dash_pane;
@@ -128,13 +134,29 @@ public class DashboardController implements Initializable {
     private JFXButton submit_btn;
     
     @FXML
-    private Pane today_act_btn;
+    private JFXButton tday_act_btn;
     
     @FXML
     private JFXTreeTableView<ActivityCore> act_table;
     
-    static int userID;
+    @FXML
+    private ImageView close_btn;
+
+    @FXML
+    private ImageView minimize_btn;
+    
+    @FXML
+    private JFXDialogLayout today_act_layout;
+    
+    @FXML
+    private JFXDialog today_act_dialog;
+    
+    private int userID;
     private User onstage_user;
+    private double Xoffset = 0;
+    private double Yoffset = 0;
+    Today_Act_PageController today_act_p;
+    Parent loader;
     ObservableList<ActivityCore> act_list = FXCollections.observableArrayList();
     
     public void setUserID(int user_id)
@@ -213,28 +235,32 @@ public class DashboardController implements Initializable {
         JFXTreeTableColumn<ActivityCore, String> color_col = new JFXTreeTableColumn("Color");
         JFXTreeTableColumn<ActivityCore, String> date = new JFXTreeTableColumn("Date and Time");
         activity_name.setPrefWidth(144);
-        activity_name.setCellValueFactory(new Callback<TreeTableColumn.CellDataFeatures<ActivityCore, String>, ObservableValue<String>>() {
+        activity_name.setCellValueFactory(new Callback<TreeTableColumn.CellDataFeatures<ActivityCore, 
+                String>, ObservableValue<String>>() {
             @Override
             public ObservableValue<String> call(TreeTableColumn.CellDataFeatures<ActivityCore, String> param) {
                 return new SimpleStringProperty(param.getValue().getValue().getTodo());
             }
         });
         description_col.setPrefWidth(144);
-        description_col.setCellValueFactory(new Callback<TreeTableColumn.CellDataFeatures<ActivityCore, String>, ObservableValue<String>>() {
+        description_col.setCellValueFactory(new Callback<TreeTableColumn.CellDataFeatures<ActivityCore, String>, 
+                ObservableValue<String>>() {
             @Override
             public ObservableValue<String> call(TreeTableColumn.CellDataFeatures<ActivityCore, String> param) {
                 return new SimpleStringProperty(param.getValue().getValue().getDescription());
             }
         });
-        color_col.setPrefWidth(144);
-        color_col.setCellValueFactory(new Callback<TreeTableColumn.CellDataFeatures<ActivityCore, String>, ObservableValue<String>>() {
+        color_col.setPrefWidth(137);
+        color_col.setCellValueFactory(new Callback<TreeTableColumn.CellDataFeatures<ActivityCore, String>,
+                ObservableValue<String>>() {
             @Override
             public ObservableValue<String> call(TreeTableColumn.CellDataFeatures<ActivityCore, String> param) {
                 return new SimpleStringProperty(param.getValue().getValue().getColor());
             }
         });
         date.setPrefWidth(144);
-        date.setCellValueFactory(new Callback<TreeTableColumn.CellDataFeatures<ActivityCore, String>, ObservableValue<String>>() {
+        date.setCellValueFactory(new Callback<TreeTableColumn.CellDataFeatures<ActivityCore, String>, 
+                ObservableValue<String>>() {
             @Override
             public ObservableValue<String> call(TreeTableColumn.CellDataFeatures<ActivityCore, String> param) {
                 Format formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -246,16 +272,103 @@ public class DashboardController implements Initializable {
         {
             act_list.add(cft.getActivity(userID).get(i));
         }
-        final TreeItem<ActivityCore> root = new RecursiveTreeItem<ActivityCore>(act_list, RecursiveTreeObject::getChildren);
+        final TreeItem<ActivityCore> root = new RecursiveTreeItem<>(act_list, RecursiveTreeObject::getChildren);
         act_table.getColumns().setAll(activity_name, description_col, color_col, date);
         act_table.setRoot(root);
         act_table.setShowRoot(false);
     }
-
+    
+    void setDraggedForm(Parent parent, Stage stage)
+    {   
+        parent.setOnMousePressed(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                Xoffset = event.getSceneX();
+                Yoffset = event.getSceneY();
+            }
+        });
+        
+        parent.setOnMouseDragged(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                stage.setX(event.getScreenX() - Xoffset);
+                stage.setY(event.getScreenY() - Yoffset);
+            }
+        });
+        
+    }
+    
+    private void LogoutClearBuffeer()
+    {
+        cft = null;
+        userID = 0;
+        onstage_user = null;
+    }
+    private void preparePopup() throws IOException
+    {
+        today_act_p = new Today_Act_PageController();
+        today_act_p.setList(act_list);
+        this.today_act_layout = new JFXDialogLayout();
+        this.today_act_dialog = new JFXDialog(stack_pane, this.today_act_layout, JFXDialog.DialogTransition.LEFT);
+        FXMLLoader loaderr = new FXMLLoader();
+        loaderr.setLocation(getClass().getResource("Today_Act_Page.fxml"));
+        loaderr.setController(today_act_p);
+        this.today_act_dialog.setContent(loaderr.load());
+        
+    }
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         System.out.print(this.userID);
         setTableColumn();
+        try {
+            preparePopup();
+        } catch (IOException ex) {
+            Logger.getLogger(DashboardController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        this.minimize_btn.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                Stage stage = (Stage) ((ImageView) event.getSource()).getScene().getWindow();
+                stage.setIconified(true);
+            }
+        });
+        
+        tday_act_btn.setOnMouseClicked(new EventHandler<MouseEvent>(){
+            @Override
+            public void handle(MouseEvent event) {
+                today_act_dialog.show();
+            }
+        });
+        
+        /*
+            Set on close button clicked and go to login page
+        */
+        this.close_btn.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                JFXDialogLayout warning_dialog_layout = new JFXDialogLayout();
+                warning_dialog_layout.setHeading(new Text("Exit"));
+                warning_dialog_layout.setBody(new Text("Are your sure ?"));
+                JFXDialog get_dialog = new JFXDialog(stack_pane, warning_dialog_layout, JFXDialog.DialogTransition.CENTER);
+                JFXButton confirm_btn = new JFXButton("Okay");
+                JFXButton cancel_btn = new JFXButton("Cancel");
+                confirm_btn.setOnMouseClicked(new EventHandler<MouseEvent>() {
+                    @Override
+                    public void handle(MouseEvent event) {
+                        Platform.exit();
+                    }
+                });
+                cancel_btn.setOnMouseClicked(new EventHandler<MouseEvent>() {
+                    @Override
+                    public void handle(MouseEvent event) {
+                        get_dialog.close();
+                    }
+                });
+                warning_dialog_layout.setActions(confirm_btn, cancel_btn);
+                get_dialog.show();
+            }
+        });
+        
         // Rippler for menu button
         JFXRippler rippler = new JFXRippler(menu_btn);
         dash_pane.getChildren().add(rippler);
@@ -263,11 +376,6 @@ public class DashboardController implements Initializable {
         rippler.setLayoutX(12);
         rippler.setLayoutY(236);
         
-        // Rippler for top panel
-        JFXRippler sec_rippler = new JFXRippler(top_pane);
-        anchor_base.getChildren().add(sec_rippler);
-        sec_rippler.setLayoutX(203);
-        sec_rippler.setLayoutY(0);
         
         // The validation is not available yet, but you can make it soon
         // It's just for testing, soon will be upgraded with any validation check
@@ -288,6 +396,13 @@ public class DashboardController implements Initializable {
                        userID);
                     int list_index = cft.getActivity(userID).size() - 1;
                     act_list.add(cft.getActivity(userID).get(list_index));
+                    
+                    // Get access to the Today_Act page for setting a newer Data to Today Activity ListView
+                    if (Calendar.getInstance().get(Calendar.DAY_OF_YEAR) == cal.get(Calendar.DAY_OF_YEAR))
+                    {
+                        today_act_p.activityObservable.add(cft.getActivity(userID).get(list_index));
+                        today_act_p.activity_list_view.getItems().add(cft.getActivity(userID).get(list_index));
+                    }
                     clearAllField();
                }catch (Exception e){
                    warning_dialog(new Text("Something went wrong"), new Text(e.getMessage()));

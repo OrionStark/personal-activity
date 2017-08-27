@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+
+<HBox fx:id="hBox" style="-fx-background-color: rgb(13, 102, 132);" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <AnchorPane fx:id="anchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="59.0" prefWidth="300.0" style="-fx-background-color: rgb(13, 102, 132);">
+         <children>
+            <ImageView fitHeight="46.0" fitWidth="51.0" layoutX="9.0" layoutY="7.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../Icon_pack/icons8-Activity%20Feed-64.png" />
+               </image>
+            </ImageView>
+            <Pane fx:id="color_act" layoutX="58.0" layoutY="14.0" prefHeight="32.0" prefWidth="92.0" style="-fx-background-color: red;" />
+            <Label fx:id="activity_name" layoutX="159.0" layoutY="5.0" prefHeight="21.0" prefWidth="139.0" text="Activity Name" textAlignment="CENTER" textFill="WHITE">
+               <font>
+                  <Font size="15.0" />
+               </font>
+            </Label>
+            <Label fx:id="activity_time" layoutX="160.0" layoutY="35.0" prefHeight="21.0" prefWidth="139.0" text="Time" textAlignment="CENTER" textFill="WHITE">
+               <font>
+                  <Font size="15.0" />
+               </font>
+            </Label>
+         </children>
+      </AnchorPane>
+   </children>
+</HBox>

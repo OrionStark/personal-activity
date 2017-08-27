@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXListView?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane id="AnchorPane" fx:id="anchor_pane" prefHeight="478.0" prefWidth="442.0" style="-fx-background-color: rgb(73, 105, 127);" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <Label layoutX="158.0" text="Today" textFill="#c4eb57">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Label>
+      <Label layoutX="204.0" layoutY="29.0" text="Activity" textFill="#31cfd6">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Label>
+      <ImageView fitHeight="35.0" fitWidth="54.0" layoutX="162.0" layoutY="29.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../Icon_pack/icons8-Activity%20Feed-64.png" />
+         </image>
+      </ImageView>
+      <Label layoutX="175.0" layoutY="62.0" text="Keep up the good work" textFill="#ebb536">
+         <font>
+            <Font size="11.0" />
+         </font>
+      </Label>
+      <ImageView fx:id="close_btn" fitHeight="26.0" fitWidth="25.0" layoutX="410.0" layoutY="6.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../Icon_pack/Close%20Window-30.png" />
+         </image>
+      </ImageView>
+      <JFXListView fx:id="activity_list_view" layoutX="45.0" layoutY="99.0" prefHeight="349.0" prefWidth="353.0" style="-fx-background-insets: 0.0; -fx-background-color: rgba(255,255,255,0);" stylesheets="@DashboardStyle.css" />
+      <Label layoutX="164.0" layoutY="459.0" text="Personal Activity @ 2017" textFill="WHITE">
+         <font>
+            <Font size="11.0" />
+         </font>
+      </Label>
+   </children>
+</AnchorPane>

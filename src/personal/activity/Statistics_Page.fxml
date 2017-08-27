@@ -1,11 +1,46 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import com.jfoenix.controls.JFXTreeTableView?>
+<?import javafx.scene.chart.NumberAxis?>
+<?import javafx.scene.chart.StackedAreaChart?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
 
-
-<AnchorPane id="AnchorPane" prefHeight="518.0" prefWidth="655.0" style="-fx-background-color: rgb(38, 70, 79);" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.111" fx:controller="personal.activity.Statistics_PageController">
+<AnchorPane id="AnchorPane" prefHeight="518.0" prefWidth="655.0" style="-fx-background-color: rgb(72, 86, 135);" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="personal.activity.Statistics_PageController">
    <children>
-      <Pane prefHeight="518.0" prefWidth="655.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+      <Pane prefHeight="518.0" prefWidth="655.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <StackedAreaChart fx:id="chart_view_act" layoutX="45.0" layoutY="343.0" prefHeight="169.0" prefWidth="566.0">
+              <xAxis>
+                <NumberAxis side="BOTTOM" tickLabelFill="WHITE" />
+              </xAxis>
+              <yAxis>
+                <NumberAxis side="LEFT" tickLabelFill="WHITE" />
+              </yAxis>
+            </StackedAreaChart>
+            <Label layoutX="237.0" layoutY="14.0" text="Activity" textFill="#29cff8">
+               <font>
+                  <Font size="28.0" />
+               </font>
+            </Label>
+            <Label layoutX="302.0" layoutY="49.0" text="Statistics" textFill="#d62d72">
+               <font>
+                  <Font size="28.0" />
+               </font>
+            </Label>
+            <Label layoutX="260.0" layoutY="84.0" text="Your activity in a week" textFill="WHITE" />
+            <Separator layoutX="231.0" layoutY="109.0" prefWidth="200.0" />
+            <JFXTreeTableView fx:id="table_view_act" layoutX="84.0" layoutY="133.0" prefHeight="210.0" prefWidth="513.0" />
+            <ImageView fx:id="close_btn" fitHeight="28.0" fitWidth="23.0" layoutX="626.0" layoutY="4.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../Icon_pack/Close%20Window-30.png" />
+               </image>
+            </ImageView>
+         </children></Pane>
    </children>
 </AnchorPane>
