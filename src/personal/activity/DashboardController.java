@@ -53,6 +53,8 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.application.Platform;
@@ -157,6 +159,8 @@ public class DashboardController implements Initializable {
     private double Yoffset = 0;
     Today_Act_PageController today_act_p;
     Parent loader;
+    Timer timer;
+    TimerTask myTask;
     ObservableList<ActivityCore> act_list = FXCollections.observableArrayList();
     
     public void setUserID(int user_id)
@@ -198,7 +202,6 @@ public class DashboardController implements Initializable {
         {
             option_drawer.open();
         }
-        System.out.print(this.userID);
     }
     
     private void checkField(Calendar cal) throws Exception
@@ -316,9 +319,48 @@ public class DashboardController implements Initializable {
         this.today_act_dialog.setContent(loaderr.load());
         
     }
+    
+    private void refractorListTodayAct()
+    {
+        this.timer = new Timer();
+        myTask = new TimerTask(){
+            @Override
+            public void run()
+            {
+                Date date;
+                Calendar cal;
+                for (int i = 0; i < today_act_p.activity_list_view.getItems().size(); i++)
+                {
+                    date = today_act_p.activity_list_view.getItems().get(i).getDateAct();
+                    cal = Calendar.getInstance();
+                    cal.setTime(date);
+                    if (!(Calendar.getInstance().get(Calendar.DAY_OF_YEAR) == cal.get(Calendar.DAY_OF_YEAR)))
+                    {
+                        today_act_p.activity_list_view.getItems().remove(i);
+                    }
+                }
+                if (act_list != null)
+                {
+                    for (int i =0; i < act_list.size(); i++)
+                    {
+                        date = act_list.get(i).getDateAct();
+                        cal = Calendar.getInstance();
+                        cal.setTime(date);
+                        if (Calendar.getInstance().get(Calendar.DAY_OF_YEAR) == cal.get(Calendar.DAY_OF_YEAR))
+                        {
+                                if (!today_act_p.activity_list_view.getItems().contains(act_list.get(i)))                                    
+                                    {
+                                        today_act_p.activity_list_view.getItems().add(act_list.get(i));
+                                    }
+                        }
+                    }
+                }
+            }
+        };
+        timer.schedule(myTask, 0, 1000);
+    }
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        System.out.print(this.userID);
         setTableColumn();
         try {
             preparePopup();
@@ -332,7 +374,7 @@ public class DashboardController implements Initializable {
                 stage.setIconified(true);
             }
         });
-        
+        refractorListTodayAct();
         tday_act_btn.setOnMouseClicked(new EventHandler<MouseEvent>(){
             @Override
             public void handle(MouseEvent event) {
@@ -355,6 +397,8 @@ public class DashboardController implements Initializable {
                 confirm_btn.setOnMouseClicked(new EventHandler<MouseEvent>() {
                     @Override
                     public void handle(MouseEvent event) {
+                        timer.cancel();
+                        timer = null;
                         Platform.exit();
                     }
                 });
@@ -398,11 +442,12 @@ public class DashboardController implements Initializable {
                     act_list.add(cft.getActivity(userID).get(list_index));
                     
                     // Get access to the Today_Act page for setting a newer Data to Today Activity ListView
+                    /*
                     if (Calendar.getInstance().get(Calendar.DAY_OF_YEAR) == cal.get(Calendar.DAY_OF_YEAR))
                     {
-                        today_act_p.activityObservable.add(cft.getActivity(userID).get(list_index));
                         today_act_p.activity_list_view.getItems().add(cft.getActivity(userID).get(list_index));
                     }
+                    */
                     clearAllField();
                }catch (Exception e){
                    warning_dialog(new Text("Something went wrong"), new Text(e.getMessage()));

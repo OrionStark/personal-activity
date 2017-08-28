@@ -65,7 +65,7 @@ public class ActivityCore extends RecursiveTreeObject<ActivityCore> {
     {
         return this.date_todo;
     }
-    public int getUserID()
+    public int getActID()
     {
         return this.Act_ID;
     }
